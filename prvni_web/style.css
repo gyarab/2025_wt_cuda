@@ -1,31 +1,18 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #222;
-    margin: 0;
-    padding: 0;
+h1 {
+    color: rgba(171, 25, 181, 0.548);
+    background-color: aquamarine;
 }
 
-nav {
-    background-color: #333;
-    padding: 10px;
+p {
+    color: aquamarine;
 }
 
-nav a {
-    color: white;
-    margin-right: 15px;
-    text-decoration: none;
+.larger-text {
+    font-size: larger;
+    border: 1px solid red;
 }
 
-nav a:hover {
-    text-decoration: underline;
+.orange {
+    color: orange;
 }
 
-.container {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
