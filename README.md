@@ -1,14 +1,7 @@
 # 2025_wt_cuda
 
-# John Romero
+Toto je pracovní repozitář pro předmět Webové technologie 2.F na Gymnáziu Arabská, školní rok 2025/2026.
 
-**John Romero** je známý americký herní designér, programátor a spoluzakladatel firmy Id Software. Je známý především kvůli jeho unikátnímu hernímu designu, která udělala revoluci v programátorské technice stříleček v první osobě (*FPS*). Jeho největší neúspěch byl při vytváření hry *Diakatana*, která stála spoustu peněz a její vývoj trval velice dlouho, ale bohužel neuspěla ani u kritiků ani u hráčů.
-
-## Důležité informace
-- spoluzakladatel Id Software
-- spolutvůrce her: *DOOM*, *QUAKE*, *WOLFENSTEIN*
-- revoluční design
-
-[John Romero instagram](https://www.instagram.com/theromero/?hl=cs)
-
-![John Romero](https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcQB-zc-fLfo2SIpd_AdNeJ-OQoKUBxGR6NxGKDj-O6JAcdcmAeXmE0WKQ8A9DQiatBke54OLac_CFasAKk)
+Repozitář obsahuje:
+- **referat.md** – můj referát na Johna Romera
+- **prvni_web/** – První prolinkovaný web na pokusy s Bootrapem v adresáři
