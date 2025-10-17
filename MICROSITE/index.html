@@ -1,19 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        .prvni {
-            background-color: aqua;
+        .container {
+            max-width: 1100px;
+            margin: 48px auto;
+            padding: 24px
         }
-        .druhy{
-            background-color: red;
+
+        header {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent), #54a78a);
+            display: grid;
+            place-items: center;
+            color: white;
+            font-weight: 700;
+            box-shadow: var(--shadow)
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 28px;
+            align-items: center;
+            margin-top: 28px
+        }
+
+        .small {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .info-item strong {
+            display: block;
+            font-size: 18px
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow)
         }
     </style>
 </head>
+
 <body>
-    
+    <header>
+        <div class="brand">
+            <div class="logo">CC</div>
+            <div>
+                <div style="font-weight:700">CapyCare</div>
+                <div class="small">První kapybaří salon v Praze</div>
+            </div>
+        </div>
+        <nav>
+            <a href="#about">O nás</a>
+            <a href="#services">Služby</a>
+            <a href="#gallery">Galerie</a>
+            <a href="#kontakt">Kontakt</a>
+        </nav>
+    </header>
+
+
+    <section class="hero">
+        <div class="card">
+            <div class="info-item">
+                <strong>Praha 6</strong><span class="small">Gymnázium, Praha 6, Arabská 14, Kabinet tělocviku - Havlíček
+                    a Čuda</span>
+            </div>
+            <div class="info-item">
+                <strong>Otevřeno</strong><span class="small">Po–Ne 8:00–19:00</span>
+            </div>
+            <div class="info-item">
+                <strong>Rezervace</strong><span class="small">E-mail nebo rezervační
+                    formulář</span>
+            </div>
+        </div>
+        <aside>
+            <div class="capy card" style="padding:0;overflow:hidden">
+                <img src="https://zoonahradecku.cz/zvire-foto/148/3/foto/1636066800.png" alt="Kapybara"
+                    style="width:100%;height:100%;object-fit:cover">
+            </div>
+        </aside>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
