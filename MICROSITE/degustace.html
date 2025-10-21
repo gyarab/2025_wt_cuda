@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Degustace prvků — Periodická tabulka (hravě)</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#7dd3fc;--glass:rgba(255,255,255,0.04)}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial; margin:0; background:linear-gradient(180deg,#071023 0%, #07182a 100%); color:#e6eef6}
+    .wrap{max-width:1100px;margin:36px auto;padding:24px}
+    header{display:flex;align-items:center;gap:16px}
+    h1{margin:0;font-size:28px}
+    p.lead{margin:6px 0 18px;color:#bcd4e6}
+    .warning{background:#3b0b0b;padding:12px;border-radius:10px;color:#ffdede;margin:12px 0}
+
+    /* grid for simple periodic table (shortened, groups only) */
+    .table{display:grid;grid-template-columns:repeat(18,1fr);gap:8px}
+    .elem{background:var(--card);padding:10px;border-radius:8px;backdrop-filter:blur(6px);box-shadow:0 2px 6px rgba(2,6,23,0.6);cursor:pointer;transition:transform .12s,box-shadow .12s}
+    .elem:hover{transform:translateY(-6px);box-shadow:0 8px 18px rgba(2,6,23,0.7)}
+    .number{font-size:11px;color:#9fb7d3}
+    .symbol{font-weight:700;font-size:20px}
+    .name{font-size:11px;color:#c6dff4}
+
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+    button{background:var(--accent);border:none;padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(2,6,23,0.6),rgba(2,6,23,0.8));}
+    .modal.open{display:flex}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));padding:20px;border-radius:14px;max-width:720px;width:94%;box-shadow:0 12px 50px rgba(2,6,23,0.8)}
+    .card h2{margin-top:0}
+    .flavor{font-size:14px;margin:10px 0;padding:10px;background:var(--glass);border-radius:8px}
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+
+    /* responsive */
+    @media(max-width:800px){.table{grid-template-columns:repeat(9,1fr)}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <rect x="2" y="3" width="20" height="18" rx="3" fill="#60a5fa" opacity="0.18" stroke="#7dd3fc"/>
+        <circle cx="9" cy="12" r="2" fill="#7dd3fc"/>
+        <circle cx="15" cy="9" r="2" fill="#7dd3fc"/>
+      </svg>
+      <div>
+        <h1>Degustace prvků — hravá periodická tabulka</h1>
+        <p class="lead">Prohlédni si prvky, klikni na ně a přečti si "chuťové" poznámky — zábavná, fiktivní aktivita pro výuku chemie.</p>
+      </div>
+    </header>
+
+    <div class="warning" role="alert">
+      <strong>Bezpečnostní upozornění:</strong> Tato stránka je čistě fiktivní a obsahuje nápady na "degustaci" prvků pouze pro vzdělávací a zábavné účely. <em>Nikdy</em> neochutnávej skutečné chemické prvky nebo sloučeniny — některé jsou extrémně jedovaté nebo reaktivní.
+    </div>
+
+    <div class="controls">
+      <button id="randomBtn">Náhodný prvek</button>
+      <button id="showAll">Zobrazit informace o všech</button>
+      <button id="safety">Proč neochutnávat (info)</button>
+    </div>
+
+    <section class="table" id="ptable" aria-label="Periodická tabulka">
+      <!-- We'll render a reduced set of elements for demo (H, He, Li, Be, B, C, N, O, F, Ne, Na, Mg, Al, Si, P, S, Cl, Ar) -->
+    </section>
+
+    <div id="modal" class="modal" aria-hidden="true
