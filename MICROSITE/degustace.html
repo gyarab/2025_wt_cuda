@@ -1,67 +1,373 @@
 <!doctype html>
 <html lang="cs">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Degustace prvků — Periodická tabulka (hravě)</title>
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#7dd3fc;--glass:rgba(255,255,255,0.04)}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial; margin:0; background:linear-gradient(180deg,#071023 0%, #07182a 100%); color:#e6eef6}
-    .wrap{max-width:1100px;margin:36px auto;padding:24px}
-    header{display:flex;align-items:center;gap:16px}
-    h1{margin:0;font-size:28px}
-    p.lead{margin:6px 0 18px;color:#bcd4e6}
-    .warning{background:#3b0b0b;padding:12px;border-radius:10px;color:#ffdede;margin:12px 0}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Restaurace Degustace Prvků — Menu & Rezervace</title>
+    <meta name="description"
+        content="Fiktivní restaurace nabízející zážitkové 'degustace prvků' pro vzdělávání a zábavu. Vše bezpečně a bez kontaktu s reálnými nebezpečnými látkami." />
+    <style>
+        /* --- Barevné schéma a základní layout --- */
+        :root {
+            --bg: #0b1220;
+            --card: #0f1724;
+            --muted: #9fb7d3;
+            --accent: #f59e0b;
+            --glass: rgba(255, 255, 255, 0.04)
+        }
 
-    /* grid for simple periodic table (shortened, groups only) */
-    .table{display:grid;grid-template-columns:repeat(18,1fr);gap:8px}
-    .elem{background:var(--card);padding:10px;border-radius:8px;backdrop-filter:blur(6px);box-shadow:0 2px 6px rgba(2,6,23,0.6);cursor:pointer;transition:transform .12s,box-shadow .12s}
-    .elem:hover{transform:translateY(-6px);box-shadow:0 8px 18px rgba(2,6,23,0.7)}
-    .number{font-size:11px;color:#9fb7d3}
-    .symbol{font-weight:700;font-size:20px}
-    .name{font-size:11px;color:#c6dff4}
+        * {
+            box-sizing: border-box
+        }
 
-    .controls{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-    button{background:var(--accent);border:none;padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer}
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+            color: #e6eef6;
+            background: linear-gradient(180deg, #071023 0%, #07182a 100%)
+        }
 
-    /* modal */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(2,6,23,0.6),rgba(2,6,23,0.8));}
-    .modal.open{display:flex}
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));padding:20px;border-radius:14px;max-width:720px;width:94%;box-shadow:0 12px 50px rgba(2,6,23,0.8)}
-    .card h2{margin-top:0}
-    .flavor{font-size:14px;margin:10px 0;padding:10px;background:var(--glass);border-radius:8px}
-    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+        .container {
+            max-width: 1100px;
+            margin: 28px auto;
+            padding: 20px
+        }
 
-    /* responsive */
-    @media(max-width:800px){.table{grid-template-columns:repeat(9,1fr)}}
-  </style>
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px
+        }
+
+        .tag {
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        /* hero */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 22px;
+            margin-top: 18px
+        }
+
+        .hero-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            padding: 20px;
+            border-radius: 12px
+        }
+
+        .cta {
+            margin-top: 12px
+        }
+
+        .btn {
+            background: var(--accent);
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        /* menu grid */
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-top: 18px
+        }
+
+        .dish {
+            background: var(--card);
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.03)
+        }
+
+        .dish h3 {
+            margin: 0 0 6px 0
+        }
+
+        .meta {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .price {
+            font-weight: 800;
+            color: var(--accent)
+        }
+
+        /* tasting flights */
+        .flights {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px
+        }
+
+        .flight {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+        }
+
+        /* footer */
+        footer {
+            margin-top: 26px;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        /* modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(2, 6, 23, 0.6), rgba(2, 6, 23, 0.8));
+            padding: 20px
+        }
+
+        .modal.open {
+            display: flex
+        }
+
+        .modal-card {
+            background: linear-gradient(180deg, #071426, #071022);
+            padding: 18px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 720px
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: transparent;
+            color: inherit
+        }
+
+        /* small screens */
+        @media(max-width:900px) {
+            .hero {
+                grid-template-columns: 1fr
+            }
+
+            .menu {
+                grid-template-columns: 1fr
+            }
+
+            .flights {
+                flex-direction: column
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <rect x="2" y="3" width="20" height="18" rx="3" fill="#60a5fa" opacity="0.18" stroke="#7dd3fc"/>
-        <circle cx="9" cy="12" r="2" fill="#7dd3fc"/>
-        <circle cx="15" cy="9" r="2" fill="#7dd3fc"/>
-      </svg>
-      <div>
-        <h1>Degustace prvků — hravá periodická tabulka</h1>
-        <p class="lead">Prohlédni si prvky, klikni na ně a přečti si "chuťové" poznámky — zábavná, fiktivní aktivita pro výuku chemie.</p>
-      </div>
-    </header>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden>
+                    <rect x="2" y="3" width="20" height="18" rx="3" fill="#f59e0b" opacity="0.12" stroke="#f59e0b" />
+                    <circle cx="9" cy="12" r="2" fill="#f59e0b" />
+                    <circle cx="15" cy="9" r="2" fill="#f59e0b" />
+                </svg>
+                <div>
+                    <h1>Restaurace Degustace Prvků</h1>
+                    <div class="tag">Zážitek & výuka: fiktivní degustace ve stylu restaurace</div>
+                </div>
+            </div>
+            <div>
+                <button class="btn" id="rezervovatBtn">Rezervovat stůl</button>
+            </div>
+        </header>
 
-    <div class="warning" role="alert">
-      <strong>Bezpečnostní upozornění:</strong> Tato stránka je čistě fiktivní a obsahuje nápady na "degustaci" prvků pouze pro vzdělávací a zábavné účely. <em>Nikdy</em> neochutnávej skutečné chemické prvky nebo sloučeniny — některé jsou extrémně jedovaté nebo reaktivní.
+        <div class="hero">
+            <div class="hero-card">
+                <h2>Ochutnejte Periodu — zážitek pro školy, fanoušky chemie a zvědavé</h2>
+                <p class="muted">Naše degustace jsou čistě fiktivní — každé „chuťové“ porovnání je bezpečně simulované.
+                    Nenabízíme kontakt s reálnými nebezpečnými látkami. Program je vhodný pro školní exkurze i soukromé
+                    akce.</p>
+
+                <div class="flights">
+                    <div class="flight">
+                        <strong>Mini flight</strong>
+                        <div class="muted">3 "degustace", 30 minut — vhodné pro děti (bez reálných vzorků)</div>
+                        <div style="margin-top:8px;font-weight:700">199 Kč</div>
+                    </div>
+                    <div class="flight">
+                        <strong>Hlavní flight</strong>
+                        <div class="muted">6 "degustací" s komentářem lektora — 60 minut</div>
+                        <div style="margin-top:8px;font-weight:700">399 Kč</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px">
+                    <button class="btn" id="menuBtn">Zobrazit menu degustací</button>
+                </div>
+            </div>
+
+            <aside class="hero-card">
+                <h3>Informace</h3>
+                <p class="muted">Otevírací doba: Po–Pá 10:00–18:00<br>Adresa: Fiktivní 123, Praha</p>
+                <p class="muted">Kapacita: až 24 hostů na sezení. Možnost mobilního programu ve školách.</p>
+            </aside>
+        </div>
+
+        <section style="margin-top:18px">
+            <h2>Menu degustací (fiktivní)</h2>
+            <p class="muted">Každý záznam je tematický, popisuje "chuť" a u každého je zřetelně uvedeno, že jde o
+                simulaci. V reálu používáme aromatické simulátory, modely a vizuální efekty — žádné nebezpečné látky.
+            </p>
+
+            <div class="menu" id="menuList">
+                <!-- položky budou vloženy skriptem -->
+            </div>
+        </section>
+
+        <section style="margin-top:18px">
+            <h2>Degustační balíčky</h2>
+            <div class="flights">
+                <div class="flight">
+                    <h4>Student speciál</h4>
+                    <p class="muted">Vzdělávací sezení 45 minut, pracovní listy a malé suvenýry.</p>
+                    <div class="price">Cena: 299 Kč / osoba</div>
+                </div>
+                <div class="flight">
+                    <h4>Večer pro dva</h4>
+                    <p class="muted">Romantické komentované „degustace“ s interaktivou.</p>
+                    <div class="price">Cena: 799 Kč / pár</div>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top:18px">
+            <h2>Bezpečnostní a etické upozornění</h2>
+            <div class="hero-card muted">
+                <strong>Upozornění:</strong> Všechny popisy chutí jsou fiktivní a určené k výuce. <em>Nikdy</em>
+                neochutnávejte nebo nemanipulujte s chemickými prvky, sloučeninami nebo jakýmikoliv laboratorními vzorky
+                bez odborného dohledu a ochranných pomůcek. Naše akce používá pouze bezpečné, netoxické simulátory
+                (aromatizéry, potravinářské nosiče, vizuální rekvizity).
+            </div>
+        </section>
+
+        <footer>
+            <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+                <div>
+                    <strong>Restaurace Degustace Prvků</strong><br>
+                    Fiktivní 123, Praha • info@degustaceprvku.example
+                </div>
+                <div class="muted">© 2025 Degustace Prvků — fiktivní projekt pro školní a vzdělávací účely</div>
+            </div>
+        </footer>
     </div>
 
-    <div class="controls">
-      <button id="randomBtn">Náhodný prvek</button>
-      <button id="showAll">Zobrazit informace o všech</button>
-      <button id="safety">Proč neochutnávat (info)</button>
+    <!-- modal rezervace a jednoduché skripty -->
+    <div id="rezModal" class="modal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true">
+            <h3>Rezervace degustace</h3>
+            <form id="rezForm">
+                <div class="form-row" style="margin-bottom:8px">
+                    <input type="text" name="name" placeholder="Jméno a příjmení" required />
+                    <input type="tel" name="phone" placeholder="Telefon" required />
+                </div>
+                <div style="margin-bottom:8px">
+                    <select name="package">
+                        <option value="mini">Mini flight — 199 Kč</option>
+                        <option value="main">Hlavní flight — 399 Kč</option>
+                        <option value="student">Student speciál — 299 Kč</option>
+                    </select>
+                </div>
+                <div class="form-row" style="margin-bottom:8px">
+                    <input type="date" name="date" required />
+                    <input type="time" name="time" required />
+                </div>
+                <div style="margin-bottom:8px">
+                    <textarea name="notes" placeholder="Poznámky / alergie (pokud relevantní)"></textarea>
+                </div>
+                <div style="display:flex;gap:8px;justify-content:flex-end">
+                    <button type="button" id="closeRez">Zrušit</button>
+                    <button class="btn" type="submit">Odeslat rezervaci</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <section class="table" id="ptable" aria-label="Periodická tabulka">
-      <!-- We'll render a reduced set of elements for demo (H, He, Li, Be, B, C, N, O, F, Ne, Na, Mg, Al, Si, P, S, Cl, Ar) -->
-    </section>
+    <script>
+        // Ukázková data menu (bez nebezpečných instrukcí)
+        const menu = [
+            { id: 'H', title: '"Vodíkový" amouse-bouche', tag: 'lehce vzdušné, vizuální efekt', price: '49 Kč', desc: 'Malý příběh o vodíku s vizuálním efektem suchého ledu a aromatickým nosičem (bez reálného vodíku).' },
+            { id: 'He', title: 'Neonové světlo — dekonstrukce', tag: 'inertní estetika', price: '69 Kč', desc: 'Světelná kompozice a jemná aromatická mlha, simulace inertií plynů.' },
+            { id: 'Na', title: 'Sodíková slaná nota (simulace)', tag: 'slaná esence', price: '79 Kč', desc: 'Chuťový zážitek postavený na potravinářské soli a nosiči, s výkladem o soli v přírodě.' },
+            { id: 'C', title: 'Uhlíkové textury', tag: 'kontrast formy', price: '89 Kč', desc: 'Porovnání „uhlových“ textur — vizuální a texturové elementy připravené z jedlých surovin.' },
+            { id: 'S', title: 'Sirná scéna (bez zápachu)', tag: 'tematická', price: '69 Kč', desc: 'Historie síry a její role — scénka s bezp. simulátorem. Zřetelně bez výparů.' },
+            { id: 'Cl', title: 'Chlor — informační zážitek', tag: 'vzdělávací', price: '59 Kč', desc: 'Popis chloru a jeho vlivu v přírodě; podáváme pouze bezpečný doprovodný materiál a modely.' }
+        ];
 
-    <div id="modal" class="modal" aria-hidden="true
+        const menuList = document.getElementById('menuList');
+        menu.forEach(item => {
+            const d = document.createElement('div'); d.className = 'dish';
+            d.innerHTML = `<h3>${item.title} <span class="price">${item.price}</span></h3><div class="meta">${item.tag} • ${item.id}</div><p class="muted">${item.desc}</p><div style=\"margin-top:8px;display:flex;gap:8px\"><button class=\"btn\" data-id=\"${item.id}\">Více</button><button data-id=\"${item.id}\">Přidat</button></div>`;
+            menuList.appendChild(d);
+        });
+
+        // modální rezervační formulář
+        const rezModal = document.getElementById('rezModal');
+        document.getElementById('rezervovatBtn').addEventListener('click', () => { rezModal.classList.add('open'); rezModal.setAttribute('aria-hidden', 'false') });
+        document.getElementById('closeRez').addEventListener('click', () => { rezModal.classList.remove('open'); rezModal.setAttribute('aria-hidden', 'true') });
+        document.getElementById('rezForm').addEventListener('submit', e => {
+            e.preventDefault();
+            // V demo verzi jen zobrazíme potvrzení — v reálné verzi by se odeslalo na server
+            alert('Děkujeme! Vaše rezervace byla přijata (demo). Zkontrolujte prosím e-mail nebo telefon pro potvrzení.');
+            rezModal.classList.remove('open'); rezModal.setAttribute('aria-hidden', 'true');
+            e.target.reset();
+        });
+
+        // tlačítka pro menu
+        document.getElementById('menuBtn').addEventListener('click', () => { document.getElementById('menuList').scrollIntoView({ behavior: 'smooth' }) });
+
+        // jednoduchý dialog pro položky
+        menuList.addEventListener('click', (e) => {
+            const id = e.target.dataset.id;
+            if (!id) return;
+            const it = menu.find(x => x.id === id);
+            if (!it) return;
+        });
+
+        // přístupnost - zavření ESC
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { rezModal.classList.remove('open'); rezModal.setAttribute('aria-hidden', 'true') } });
+    </script>
+</body>
+
+</html>
