@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6e5ad5588a851d1ba31617c84cba97e0530f910e
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS Game</title>
+<<<<<<< HEAD
+</head>
+<body>
+    <h1> JS Game</h1>
+    <p>
+        Hadej cislo od 1 do 20
+    </p>
+    <input id="newGaneBtn" type="button" value="
+    Nova Hra">
+    <br>
+    <input id="guess" type="number" name="guess">
+    <input id="guessBtn" type="button" value="zkus">
+
+    <p>
+        Počet pokusů <span id="attemps">0</span>
+    </p>
+
+    <script>
+        let secretNumber
+        let attemps
+
+        function newGame () {
+            secretNumber = Math.floor(Math.random() * 20) + 1
+            attemps = 0
+
+            console.log('---New Game---')
+            console.log('tajne cislo je', secretNumber)
+        }
+        function checkGues(){
+            attemps++
+        }
+
+        newGame()
+    </script>
+</body>
+=======
 
 
     <style>
@@ -126,4 +165,5 @@
     </script>
 </body>
 
+>>>>>>> 6e5ad5588a851d1ba31617c84cba97e0530f910e
 </html>
