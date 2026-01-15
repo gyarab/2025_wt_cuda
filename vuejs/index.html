@@ -15,28 +15,28 @@
         <h1 class="text-center my-3">Registrace na meziplanetární výlet</h1>
         <div id="app">
             <div class="card p-4">
-                <form>
+                <form @submit.prevent="handleForm">
                     <div class="mb-3">
                         <label for="name">Jméno astronauta</label>
-                        <input class="form-control" type="text" id="name" name="name">
+                        <input v-model="trip.name" placeholder="Jan Novák" class="form-control" type="text" id="name" name="name">
                     </div>
                     <div class="mb-3">
                         <label for="planet">Destinace</label>
-                        <select class="form-select" id="planet" name="planet">
+                        <select v-model="trip.destination" class="form-select" id="planet" name="planet">
                             <option value="Mars">Mars</option>
                             <option value="Venuše">Venuše</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="days">Počet dní</label>
-                        <input class="form-control" type="number" id="days" name="days">
+                        <input v-model="trip.days" class="form-control" type="number" id="days" name="days">
                     </div>
                     <div class="mb-3">
                         <input class="form-check-input" type="checkbox" id="terms">
                         <label class="form-check-label" for="terms">Souhlasím s podmínkami</label>
                     </div>
                     <div class="pb-3">
-                        <button class="btn btn-primary w-100" :disabled="!isValid" type="submit">Odeslat</button>
+                        <button class="btn btn-primary w-100"  type="submit">Odeslat</button>
                     </div>
                 </form>
                 <!-- {{ message }}
@@ -48,9 +48,9 @@
             <div class="card p-3">
                 <h2>Palubní lístek</h2>
                 <p>
-                    Jméno: <strong>Tester</strong> <br>
-                    Destinace: <strong>Mars</strong> <br>
-                    Počet dní: <strong>3</strong> <br>
+                    Jméno: <strong>{{trip.name}}</strong> <br>
+                    Destinace: <strong>{{trip.destination}}</strong> <br>
+                    Počet dní: <strong>{{trip.days}}</strong> <br>
                     Odhadovaná cena: <strong>2400 kreditů</strong> <br>
                 </p>
             </div>
@@ -79,10 +79,19 @@
             },
             computed: {
                 isValid() {
-                    return true
+                    return !!this.trip.name
                 }
             }
+            methods: (
+                validate(){
+                    
+                }
+                handleForms(){
+
+                }
+            )
         })
+
 
         app.mount('#app')
 
